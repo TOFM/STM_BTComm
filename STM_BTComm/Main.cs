@@ -122,7 +122,6 @@ namespace STM_BTComm
             string[] coords = commandText.Text.Split(delimeters);
             bool errFlag = false;
 
-
             if (!normalTextFlag)
             {
                 foreach (string item in coords)
@@ -131,7 +130,45 @@ namespace STM_BTComm
                     {
                         if (item != string.Empty)
                         {
-                            string bin = Convert.ToString(Convert.ToUInt32(Convert.ToDouble(item) * 100), 2); // Add checks for symbols and text and numbers bigger than Uint16
+                            UInt16 form;
+                            string bin;
+                            string clearedItem;
+
+                            if (item.Contains("ms"))
+                            {
+                                clearedItem = item.Remove(item.Length - 2, 2);
+                                form = 0;
+                            }
+                            else if (item.Contains("s"))
+                            {
+                                clearedItem = item.Remove(item.Length - 1, 1);
+
+                                form = 1;
+                                form <<= 14;
+                            }
+                            else if (item.Contains("min"))
+                            {
+                                clearedItem = item.Remove(item.Length - 3, 3);
+
+                                form = 10;
+                                form <<= 14;
+                            }
+                            else if (item.Contains("h"))
+                            {
+                                clearedItem = item.Remove(item.Length - 1, 1);
+
+                                form = 11;
+                                form <<= 14;
+                            }
+                            else
+                            {
+                                bin = Convert.ToString(Convert.ToUInt16(Convert.ToDouble(item) * 100), 2); // Add checks for symbols and text and numbers bigger than Uint16
+                                binaryMessage += bin.PadLeft(16, '0');
+                                continue;
+                            }
+
+                            bin = Convert.ToString(Convert.ToUInt16(Convert.ToDouble(clearedItem) * 100) + form, 2);
+
                             binaryMessage += bin.PadLeft(16, '0');
                         }
                     }
@@ -206,7 +243,7 @@ namespace STM_BTComm
             else if ((debugChBx.Checked && serialIn.IsOpen) || serialOut.IsOpen)
             {
                 debugChBx.Checked = false;
-                
+
             }
             else if (!debugChBx.Checked)
             {
