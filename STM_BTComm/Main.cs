@@ -47,7 +47,7 @@ namespace STM_BTComm
             {
                 serialOut = new SerialPort(outComPortSelect.SelectedItem.ToString(), 9600);
                 serialIn = new SerialPort(inComPortSelect.SelectedItem.ToString(), 9600);
-                serialOut.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
+                //serialOut.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
                 try
                 {
                     serialOut.Open();
@@ -119,7 +119,7 @@ namespace STM_BTComm
         {
             string binaryMessage = "";
             char[] delimeters = { '-', '/' };
-            string[] coords = commandText.Text.Split(delimeters);
+            string[] coords = commandText.Text.Split(delimeters, StringSplitOptions.RemoveEmptyEntries);
             bool errFlag = false;
 
             if (!normalTextFlag)
@@ -134,26 +134,26 @@ namespace STM_BTComm
                             string bin;
                             string clearedItem;
 
-                            if (item.Contains("ms"))
+                            if (item.EndsWith("ms"))
                             {
                                 clearedItem = item.Remove(item.Length - 2, 2);
                                 form = 0;
                             }
-                            else if (item.Contains("s"))
+                            else if (item.EndsWith("s"))
                             {
                                 clearedItem = item.Remove(item.Length - 1, 1);
 
                                 form = 1;
                                 form <<= 14;
                             }
-                            else if (item.Contains("min"))
+                            else if (item.EndsWith("min"))
                             {
                                 clearedItem = item.Remove(item.Length - 3, 3);
 
                                 form = 10;
                                 form <<= 14;
                             }
-                            else if (item.Contains("h"))
+                            else if (item.EndsWith("h"))
                             {
                                 clearedItem = item.Remove(item.Length - 1, 1);
 
@@ -174,7 +174,7 @@ namespace STM_BTComm
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Error in sending: [" + ex.Message + "]");
+                        MessageBox.Show($"Error in sending: [{ex.Message}]");
                         errFlag = true;
                         continue;
                     }
@@ -198,7 +198,7 @@ namespace STM_BTComm
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Error in sending: [" + ex.Message + "]");
+                        MessageBox.Show($"Error in sending: [{ex.Message}]");
                     }
                 }
             }

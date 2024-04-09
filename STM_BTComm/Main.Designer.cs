@@ -178,6 +178,10 @@
             this.label4.TabIndex = 10;
             this.label4.Text = "Recieved messages buffer";
             // 
+            // serialOut
+            // 
+            this.serialOut.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.DataReceivedHandler);
+            // 
             // refreshCOMList
             // 
             this.refreshCOMList.BackColor = System.Drawing.Color.LightSkyBlue;
