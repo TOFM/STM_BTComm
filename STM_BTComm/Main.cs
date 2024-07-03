@@ -47,7 +47,7 @@ namespace STM_BTComm
             {
                 serialOut = new SerialPort(outComPortSelect.SelectedItem.ToString(), 9600);
                 serialIn = new SerialPort(inComPortSelect.SelectedItem.ToString(), 9600);
-                //serialOut.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
+                serialOut.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
                 try
                 {
                     serialOut.Open();

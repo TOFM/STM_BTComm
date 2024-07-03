@@ -120,9 +120,9 @@
             // 
             this.commandText.BackColor = System.Drawing.Color.White;
             this.commandText.Enabled = false;
-            this.commandText.Location = new System.Drawing.Point(11, 113);
+            this.commandText.Location = new System.Drawing.Point(10, 113);
             this.commandText.Name = "commandText";
-            this.commandText.Size = new System.Drawing.Size(384, 20);
+            this.commandText.Size = new System.Drawing.Size(385, 20);
             this.commandText.TabIndex = 5;
             // 
             // sendCommand
